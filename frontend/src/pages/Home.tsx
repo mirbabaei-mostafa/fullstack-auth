@@ -1,7 +1,9 @@
-import React from "react";
+import React from 'react';
+import { useTranslation } from 'react-i18next';
 
-const Home = () => {
-  return <div></div>;
-};
+function Home() {
+  const { t } = useTranslation();
+  return <div>{t('Home')}</div>;
+}
 
 export default Home;
