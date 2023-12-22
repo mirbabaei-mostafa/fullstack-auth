@@ -2,8 +2,11 @@
   "Home": "Home",
   "Profile": "Profile",
   "SignIn": "Anmelden",
+  "SigningIn": "Anmeldung",
   "SignOut": "Sign Out",
   "SignUp": "Regestrieren",
+  "SignUpGoole": "Fortfahren mit Google",
+  "DontHaveAcoount": "Dont have an account?",
   "ControlPannel": "Control Pannel",
   "ToEntrance": "Please sign in to enter the control pannel or sign up!"
 }

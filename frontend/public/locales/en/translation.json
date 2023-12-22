@@ -2,8 +2,10 @@
   "Home": "Home",
   "Profile": "Profile",
   "SignIn": "Sign In",
+  "SigningIn": "Signing In",
   "SignOut": "Sign Out",
   "SignUp": "Sign Up",
+  "SignUpGoole": "Continue with Google",
   "ControlPannel": "Control Pannel",
   "ToEntrance": "Please sign in to enter the control pannel or sign up!"
 }
