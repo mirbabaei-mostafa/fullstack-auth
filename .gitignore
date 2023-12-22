@@ -23,7 +23,7 @@ frontend/*.njsproj
 frontend/*.sln
 frontend/*.sw?
 
-backend/node_modules
-backend/dist
-backend/dist-ssr
-backend/*.local
+api/node_modules
+api/dist
+api/dist-ssr
+api/*.local
