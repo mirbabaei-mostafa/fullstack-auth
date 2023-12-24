@@ -3,9 +3,18 @@
   "Profile": "Profile",
   "SignIn": "Sign In",
   "SigningIn": "Signing In",
+  "SigningUp": "Signing Up",
   "SignOut": "Sign Out",
   "SignUp": "Sign Up",
-  "SignUpGoole": "Continue with Google",
+  "SignUpGoole": "Sign up with Google",
+  "ContinueGoole": "Continue with Google",
+  "HaveAcoount": "Have you an account?",
+  "DontHaveAcoount": "Don't have you an account?",
   "ControlPannel": "Control Pannel",
-  "ToEntrance": "Please sign in to enter the control pannel or sign up!"
+  "ToEntrance": "Please sign in to enter the control pannel or sign up!",
+  "UsernameRequired": "Username is required!",
+  "EmailRequired": "E-Meil is required!",
+  "EmailFormat": "Your entry dosn't meet E-Mail's format!",
+  "PasswordRequired": "Password is required!",
+  "GeneralError": "General Error"
 }
