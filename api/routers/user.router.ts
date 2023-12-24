@@ -1,13 +1,8 @@
-import express, { Request, Response, Application, Router } from "express";
+import express, { Router } from 'express';
+import { getUsers } from '../controllers/user.controller';
 
 const userRouter: Router = express.Router();
 
-userRouter.get("/", (req: Request, res: Response) => {
-  res.json({
-    username: "mostafa",
-    email: "mostafa@mostafa.com",
-    password: "mostafa",
-  });
-});
+userRouter.get('/', getUsers);
 
 export default userRouter;

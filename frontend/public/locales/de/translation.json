@@ -3,10 +3,18 @@
   "Profile": "Profile",
   "SignIn": "Anmelden",
   "SigningIn": "Anmeldung",
+  "SigningUp": "Registrierung",
   "SignOut": "Sign Out",
   "SignUp": "Regestrieren",
-  "SignUpGoole": "Fortfahren mit Google",
-  "DontHaveAcoount": "Dont have an account?",
-  "ControlPannel": "Control Pannel",
-  "ToEntrance": "Please sign in to enter the control pannel or sign up!"
+  "SignUpGoole": "Regestrieren mit Google",
+  "ContinueGoole": "Fortfahren mit Google",
+  "HaveAcoount": "Haben Sie ein Konto?",
+  "DontHaveAcoount": "Haben Sie kein Konto?",
+  "ControlPannel": "Systemsteuerung",
+  "ToEntrance": "Bei Eingang der Systemsteuerung müssen Sie anmelden oder regestrieren!",
+  "UsernameRequired": "Username ist unbedingt!",
+  "EmailRequired": "E-Meil ist unbedingt!",
+  "EmailFormat": "Bitte tragen Sie ein richtiges E-Meil Format ein!",
+  "PasswordRequired": "Password ist unbedingt!",
+  "GeneralError": "Generaler Fehler"
 }
