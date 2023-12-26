@@ -19,5 +19,11 @@
   "EmailFormat": "Your entry dosn't meet E-Mail's format!",
   "PasswordRequired": "Password is required!",
   "GeneralError": "General Error",
-  "SuccessCreateUser": "User was created successfully."
+  "SuccessCreateUser": "User was created successfully.",
+  "Username": "User name",
+  "Email": "E-Mail address",
+  "Password": "Password",
+  "WrongCredential": "Your password is wrong!",
+  "EmailNotFound": "E-Mail not found!",
+  "SuccessfullAddingToMongoDB": "Your account created successfully!"
 }

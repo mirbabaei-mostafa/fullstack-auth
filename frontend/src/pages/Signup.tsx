@@ -1,29 +1,29 @@
-import { Helmet } from 'react-helmet-async';
-import { useTranslation } from 'react-i18next';
-import { Link, useNavigate } from 'react-router-dom';
-import * as yup from 'yup';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useState } from 'react';
-import { User } from '../data/types';
-import { API_SIGNUP } from '../data/config';
-import axios from 'axios';
+import { Helmet } from "react-helmet-async";
+import { useTranslation } from "react-i18next";
+import { Link, useNavigate } from "react-router-dom";
+import * as yup from "yup";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useState } from "react";
+import { User } from "../data/types";
+import { API_SIGNUP } from "../data/config";
+import axios from "axios";
 
 const Signup = () => {
   const { t } = useTranslation<string>();
   const navigate = useNavigate();
   const [isLoading, setLoading] = useState<boolean>(false);
   const [userInfo, setUserInfo] = useState<User>({
-    username: '',
-    email: '',
-    password: '',
+    username: "",
+    email: "",
+    password: "",
   });
-  const [error, setError] = useState<string>('');
+  const [error, setError] = useState<string>("");
 
   const schema = yup.object().shape({
-    username: yup.string().required(t('UsernameRequired')),
-    email: yup.string().required(t('EmailRequired')).email(t('EmailFormat')),
-    password: yup.string().required(t('PasswordRequired')),
+    username: yup.string().required(t("UsernameRequired")),
+    email: yup.string().required(t("EmailRequired")).email(t("EmailFormat")),
+    password: yup.string().required(t("PasswordRequired")),
   });
   interface UserI extends yup.InferType<typeof schema> {
     username: string;
@@ -43,27 +43,27 @@ const Signup = () => {
   const onSubmitHandler: SubmitHandler<User> = async (data: User) => {
     try {
       setLoading(true);
-      setError('');
+      setError("");
       await axios
         .post(API_SIGNUP, data, {
-          method: 'POST',
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
           // body: JSON.stringify(data),
         })
         .then((res) => {
           reset();
           setLoading(false);
-          navigate('/signin?ret=success');
+          navigate("/signin?ret=success");
         });
     } catch (err: unknown) {
-      if (typeof err === 'string') {
+      if (typeof err === "string") {
         setError(err);
       } else if (err instanceof Error) {
         setError(err.message);
       } else {
-        setError(t('GeneralError'));
+        setError(t("GeneralError"));
       }
       setLoading(false);
     }
@@ -73,17 +73,18 @@ const Signup = () => {
     <form onSubmit={handleSubmit(onSubmitHandler)}>
       <div className="flex flex-col items-center w-96">
         <Helmet>
-          <title>{t('SigningUp')}</title>
+          <title>{t("SigningUp")}</title>
         </Helmet>
         <div className="font-display font-bold text-gray-900 text-2xl pb-6">
-          {t('SigningUp')}
+          {t("SigningUp")}
         </div>
         {error && (
           <div className="text-red-800 font-sans text-base">{error}</div>
         )}
         <div className="py-4 w-full">
           <input
-            {...register('username')}
+            placeholder={t("Username")}
+            {...register("username")}
             type="text"
             onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
               setUserInfo({ ...userInfo, username: event.target.value })
@@ -98,7 +99,8 @@ const Signup = () => {
         )}
         <div className="py-4 w-full">
           <input
-            {...register('email')}
+            placeholder={t("Email")}
+            {...register("email")}
             type="text"
             onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
               setUserInfo({ ...userInfo, email: event.target.value })
@@ -113,7 +115,8 @@ const Signup = () => {
         )}
         <div className="py-4 w-full">
           <input
-            {...register('password')}
+            placeholder={t("Password")}
+            {...register("password")}
             type="password"
             onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
               setUserInfo({ ...userInfo, password: event.target.value })
@@ -129,14 +132,14 @@ const Signup = () => {
         <div className="py-4 w-full">
           {!isLoading ? (
             <button className="w-full h-12 text-orange-900 font-bold px-8 bg-orange-500 hover:bg-orange-700 hover:text-white border border-orange-300 rounded-md uppercase cursor-pointer">
-              {t('SignUp')}
+              {t("SignUp")}
             </button>
           ) : (
             <button
               className="w-full h-12 text-gray-800 font-bold px-8 bg-gray-500 border-gray-800 rounded-md uppercase cursor-none"
               disabled
             >
-              {t('SignUpWait')}
+              {t("SignUpWait")}
             </button>
           )}
         </div>
@@ -145,16 +148,16 @@ const Signup = () => {
             type="submit"
             className="w-full h-12 text-white font-bold px-8 bg-gray-800 hover:bg-gray-700 border-gray-950 rounded-md uppercase"
           >
-            {t('SignUpGoole')}
+            {t("SignUpGoole")}
           </button>
         </div>
         <div className="py-4 w-full">
-          <span className="">{t('HaveAcoount')}</span>{' '}
+          <span className="">{t("HaveAcoount")}</span>{" "}
           <Link
             className="text-orange-700 hover:text-orange-900"
-            to={'/signin'}
+            to={"/signin"}
           >
-            {t('SignIn')}
+            {t("SignIn")}
           </Link>
         </div>
       </div>

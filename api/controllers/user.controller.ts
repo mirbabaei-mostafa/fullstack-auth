@@ -71,7 +71,10 @@ export const checkUser = async (
             );
             const { password: hashPassword, ...userrest } = result!._doc;
             res
-              .cookie("auth_token", token, { httpOnly: true })
+              .cookie("auth_token", token, {
+                httpOnly: true,
+                maxAge: 2 * 60 * 60,
+              })
               .status(201)
               .json(userrest);
             // .json({ username: result!.username, email: result!.email });
