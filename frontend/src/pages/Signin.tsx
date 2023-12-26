@@ -8,6 +8,8 @@ import axios from "axios";
 import { API_SIGNIN } from "../data/config";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { setAuth } from "../features/authSlice";
+import { useAppDispatch } from "../app/hooks";
 
 type Props = {
   cookieFN: (name: string, value: string) => void;
@@ -16,6 +18,7 @@ type Props = {
 const Signin = (props: Props) => {
   const { t } = useTranslation<string>();
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const schema = yup.object().shape({
     email: yup.string().required(t("EmailRequired")).email(t("EmailFormat")),
     password: yup.string().required(t("PasswordRequired")),
@@ -54,6 +57,7 @@ const Signin = (props: Props) => {
           },
         })
         .then((res) => {
+          dispatch(setAuth(res.data));
           props.cookieFN("user", res.data.username);
           reset();
           setLoading(false);
