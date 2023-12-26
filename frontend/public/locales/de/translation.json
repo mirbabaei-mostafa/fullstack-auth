@@ -7,6 +7,7 @@
   "SignOut": "Sign Out",
   "SignUp": "Regestrieren",
   "SignUpGoole": "Regestrieren mit Google",
+  "SignUpWait": "Bitte warten",
   "ContinueGoole": "Fortfahren mit Google",
   "HaveAcoount": "Haben Sie ein Konto?",
   "DontHaveAcoount": "Haben Sie kein Konto?",
@@ -16,5 +17,6 @@
   "EmailRequired": "E-Meil ist unbedingt!",
   "EmailFormat": "Bitte tragen Sie ein richtiges E-Meil Format ein!",
   "PasswordRequired": "Password ist unbedingt!",
-  "GeneralError": "Generaler Fehler"
+  "GeneralError": "Generaler Fehler",
+  "SuccessCreateUser": "Benutzer*in wurde erfolgreich erstellt."
 }
