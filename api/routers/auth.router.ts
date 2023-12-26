@@ -2,7 +2,6 @@ import express, { Router } from 'express';
 import { checkUser } from '../controllers/user.controller';
 
 const authRouter: Router = express.Router();
-
-authRouter.post('/signin', checkUser);
+authRouter.post('/', checkUser);
 
 export default authRouter;

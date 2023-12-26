@@ -1,13 +1,13 @@
-import { Helmet } from "react-helmet-async";
-import { useTranslation } from "react-i18next";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import { UserLogin } from "../data/types";
-import { useState } from "react";
-import * as yup from "yup";
-import axios from "axios";
-import { API_SIGNIN } from "../data/config";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
+import { Helmet } from 'react-helmet-async';
+import { useTranslation } from 'react-i18next';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import { UserLogin } from '../data/types';
+import { useState } from 'react';
+import * as yup from 'yup';
+import axios from 'axios';
+import { API_SIGNIN } from '../data/config';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 type Props = {
   cookieFN: (name: string, value: string) => void;
@@ -17,8 +17,8 @@ const Signin = (props: Props) => {
   const { t } = useTranslation<string>();
   const navigate = useNavigate();
   const schema = yup.object().shape({
-    email: yup.string().required(t("EmailRequired")).email(t("EmailFormat")),
-    password: yup.string().required(t("PasswordRequired")),
+    email: yup.string().required(t('EmailRequired')).email(t('EmailFormat')),
+    password: yup.string().required(t('PasswordRequired')),
   });
   interface UserI extends yup.InferType<typeof schema> {
     email: string;
@@ -26,10 +26,10 @@ const Signin = (props: Props) => {
   }
   const { ret } = useParams<string>();
   const [isLoading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string>("");
+  const [error, setError] = useState<string>('');
   const [userInfo, setUserInfo] = useState<UserLogin>({
-    email: "",
-    password: "",
+    email: '',
+    password: '',
   });
   const {
     register,
@@ -42,29 +42,30 @@ const Signin = (props: Props) => {
   });
 
   const onSubmitHandler: SubmitHandler<UserLogin> = async (data: UserLogin) => {
+    console.log(data);
     try {
       setLoading(true);
-      setError("");
+      setError('');
       await axios
         .post(API_SIGNIN, data, {
-          method: "POST",
+          method: 'POST',
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
         })
         .then((res) => {
-          props.cookieFN("user", res.data.username);
+          props.cookieFN('user', res.data.username);
           reset();
           setLoading(false);
-          navigate("/profile");
+          navigate('/profile');
         });
     } catch (err: unknown) {
-      if (typeof err === "string") {
+      if (typeof err === 'string') {
         setError(err);
       } else if (err instanceof Error) {
         setError(err.message);
       } else {
-        setError(t("GeneralError"));
+        setError(t('GeneralError'));
       }
       setLoading(false);
     }
@@ -74,53 +75,78 @@ const Signin = (props: Props) => {
     <form onSubmit={handleSubmit(onSubmitHandler)}>
       <div className="flex flex-col items-center w-96">
         <Helmet>
-          <title>{t("SigningIn")}</title>
+          <title>{t('SigningIn')}</title>
         </Helmet>
         <div className="font-display font-bold text-gray-900 text-2xl pb-6">
-          {t("SigningIn")}
+          {t('SigningIn')}
         </div>
-        {ret === "success" && (
+        {ret === 'success' && (
           <div className="text-green-800 font-sans text-base">
-            {t("SuccessCreateUser")}
+            {t('SuccessCreateUser')}
           </div>
+        )}
+        {error && (
+          <div className="text-red-800 font-sans text-base">{t(error)}</div>
         )}
         <div className="py-4 w-full">
           <input
             type="text"
-            {...register("email")}
+            {...register('email')}
             onChange={(e) =>
               setUserInfo({ ...userInfo, email: e.target.value })
             }
             className="w-full h-12 text-orange-900 px-8 bg-white hover:bg-orange-200 border border-orange-300 rounded-md"
           ></input>
         </div>
+        {errors.email && (
+          <div className="text-red-800 font-sans text-base">
+            {errors.email?.message}
+          </div>
+        )}
         <div className="py-4 w-full">
           <input
             type="password"
-            {...register("password")}
+            {...register('password')}
             onChange={(e) =>
               setUserInfo({ ...userInfo, password: e.target.value })
             }
             className="w-full h-12 text-orange-900 px-8 bg-white hover:bg-orange-200 border border-orange-300 rounded-md"
           ></input>
         </div>
+        {errors.password && (
+          <div className="text-red-800 font-sans text-base">
+            {errors.password?.message}
+          </div>
+        )}
         <div className="py-4 w-full">
-          <button className="w-full h-12 text-orange-900 font-bold px-8 bg-orange-500 hover:bg-orange-700 hover:text-white border border-orange-300 rounded-md uppercase">
-            {t("SignIn")}
-          </button>
+          {!isLoading ? (
+            <button
+              type="submit"
+              className="w-full h-12 text-orange-900 font-bold px-8 bg-orange-500 hover:bg-orange-700 hover:text-white border border-orange-300 rounded-md uppercase cursor-pointer"
+            >
+              {t('SignIn')}
+            </button>
+          ) : (
+            <button
+              className="w-full h-12 text-gray-800 font-bold px-8 bg-gray-500 border-gray-800 rounded-md uppercase cursor-none"
+              disabled
+            >
+              {t('SignInWait')}
+            </button>
+          )}
         </div>
         <div className="py-4 w-full">
           <button className="w-full h-12 text-white font-bold px-8 bg-gray-800 hover:bg-gray-700 border-gray-950 rounded-md uppercase">
-            {t("ContinueGoole")}
+            {t('ContinueGoole')}
           </button>
         </div>
         <div className="py-4 w-full">
-          <span className="">{t("DontHaveAcoount")}</span>{" "}
+          <span className="">{t('DontHaveAcoount')}</span>{' '}
           <Link
             className="text-orange-700 hover:text-orange-900"
-            to={"/signup"}
+            to={'/signup'}
           >
-            {t("SignUp")}
+            {t('SignUp')}
           </Link>
         </div>
       </div>

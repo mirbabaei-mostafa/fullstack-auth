@@ -1,6 +1,10 @@
 import { Request, Response, Application, NextFunction } from "express";
 import Users from "../models/user.model";
 import bcrypt from "bcrypt";
+import dotenv from "dotenv";
+import jwt from "jsonwebtoken";
+
+dotenv.config();
 
 interface UserI {
   username: string;
@@ -48,12 +52,37 @@ export const checkUser = async (
 ) => {
   const userInfo: UserI = req.body;
   try {
-    const userList: any = Users.findOne({ email: userInfo.email });
-    if (!userList) next("UserNotFound");
-    const isVerify: Promise<boolean> = bcrypt.compareSync(
-      userInfo.password,
-      userList.password
-    );
+    Users.findOne({ email: userInfo.email })
+      .then((result: any) => {
+        if (result) {
+          const isVerify: boolean = bcrypt.compareSync(
+            userInfo.password,
+            result!.password
+          );
+          if (!isVerify) {
+            next("WrongCredential");
+          } else {
+            const token = jwt.sign(
+              {
+                id: result!._id,
+              },
+              process.env.JWTSECRET as string,
+              { expiresIn: "2h" }
+            );
+            const { password: hashPassword, ...userrest } = result!._doc;
+            res
+              .cookie("auth_token", token, { httpOnly: true })
+              .status(201)
+              .json(userrest);
+            // .json({ username: result!.username, email: result!.email });
+          }
+        } else {
+          res.status(404).json({ error: "EmailNotFound" });
+        }
+      })
+      .catch((err) => {
+        next(err);
+      });
   } catch (err) {
     next(err);
   }
