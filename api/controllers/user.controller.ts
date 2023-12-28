@@ -60,7 +60,7 @@ export const checkUser = async (
             result!.password
           );
           if (!isVerify) {
-            next("WrongCredential");
+            next({ status: 404, message: "WrongCredential" });
           } else {
             const token = jwt.sign(
               {
@@ -77,16 +77,15 @@ export const checkUser = async (
               })
               .status(201)
               .json(userrest);
-            // .json({ username: result!.username, email: result!.email });
           }
         } else {
-          res.status(404).json({ error: "EmailNotFound" });
+          next({ status: 404, message: "EmailNotFound" });
         }
       })
       .catch((err) => {
-        next(err);
+        next({ status: 400, message: err.message });
       });
   } catch (err) {
-    next(err);
+    next({ status: 500, message: "UnknownError" });
   }
 };

@@ -1,7 +1,7 @@
 import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { UserLogin } from "../data/types";
+import { CookieProps, UserLogin, ErrorResult } from "../data/types";
 import { useState } from "react";
 import * as yup from "yup";
 import axios from "axios";
@@ -11,11 +11,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { setAuth } from "../features/authSlice";
 import { useAppDispatch } from "../app/hooks";
 
-type Props = {
-  cookieFN: (name: string, value: string) => void;
-};
-
-const Signin = (props: Props) => {
+const Signin = (props: CookieProps) => {
   const { t } = useTranslation<string>();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -45,7 +41,6 @@ const Signin = (props: Props) => {
   });
 
   const onSubmitHandler: SubmitHandler<UserLogin> = async (data: UserLogin) => {
-    console.log(data);
     try {
       setLoading(true);
       setError("");
@@ -63,8 +58,10 @@ const Signin = (props: Props) => {
           setLoading(false);
           navigate("/profile");
         });
-    } catch (err: unknown) {
-      if (typeof err === "string") {
+    } catch (err: any) {
+      if (err.response.data as ErrorResult) {
+        setError(t(err.response.data.message));
+      } else if (typeof err === "string") {
         setError(err);
       } else if (err instanceof Error) {
         setError(err.message);
