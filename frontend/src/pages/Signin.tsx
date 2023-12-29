@@ -10,6 +10,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { setAuth } from "../features/authSlice";
 import { useAppDispatch } from "../app/hooks";
+import OAuth from "../components/OAuth";
 
 const Signin = (props: CookieProps) => {
   const { t } = useTranslation<string>();
@@ -73,87 +74,85 @@ const Signin = (props: CookieProps) => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmitHandler)}>
+    <>
       <div className="flex flex-col items-center w-96">
-        <Helmet>
-          <title>{t("SigningIn")}</title>
-        </Helmet>
-        <div className="font-display font-bold text-gray-900 text-2xl pb-6">
-          {t("SigningIn")}
-        </div>
-        {ret === "success" && (
-          <div className="text-green-800 font-sans text-base">
-            {t("SuccessCreateUser")}
+        <form onSubmit={handleSubmit(onSubmitHandler)} className=" w-96">
+          <Helmet>
+            <title>{t("SigningIn")}</title>
+          </Helmet>
+          <div className="font-display font-bold text-gray-900 text-2xl pb-6">
+            {t("SigningIn")}
           </div>
-        )}
-        {error && (
-          <div className="text-red-800 font-sans text-base">{t(error)}</div>
-        )}
-        <div className="py-4 w-full">
-          <input
-            placeholder={t("Email")}
-            type="text"
-            {...register("email")}
-            onChange={(e) =>
-              setUserInfo({ ...userInfo, email: e.target.value })
-            }
-            className="w-full h-12 text-orange-900 px-8 bg-white hover:bg-orange-200 border border-orange-300 rounded-md"
-          ></input>
-        </div>
-        {errors.email && (
-          <div className="text-red-800 font-sans text-base">
-            {errors.email?.message}
-          </div>
-        )}
-        <div className="py-4 w-full">
-          <input
-            placeholder={t("Password")}
-            type="password"
-            {...register("password")}
-            onChange={(e) =>
-              setUserInfo({ ...userInfo, password: e.target.value })
-            }
-            className="w-full h-12 text-orange-900 px-8 bg-white hover:bg-orange-200 border border-orange-300 rounded-md"
-          ></input>
-        </div>
-        {errors.password && (
-          <div className="text-red-800 font-sans text-base">
-            {errors.password?.message}
-          </div>
-        )}
-        <div className="py-4 w-full">
-          {!isLoading ? (
-            <button
-              type="submit"
-              className="w-full h-12 text-orange-900 font-bold px-8 bg-orange-500 hover:bg-orange-700 hover:text-white border border-orange-300 rounded-md uppercase cursor-pointer"
-            >
-              {t("SignIn")}
-            </button>
-          ) : (
-            <button
-              className="w-full h-12 text-gray-800 font-bold px-8 bg-gray-500 border-gray-800 rounded-md uppercase cursor-none"
-              disabled
-            >
-              {t("SignInWait")}
-            </button>
+          {ret === "success" && (
+            <div className="text-green-800 font-sans text-base">
+              {t("SuccessCreateUser")}
+            </div>
           )}
-        </div>
-        <div className="py-4 w-full">
-          <button className="w-full h-12 text-white font-bold px-8 bg-gray-800 hover:bg-gray-700 border-gray-950 rounded-md uppercase">
-            {t("ContinueGoole")}
-          </button>
-        </div>
-        <div className="py-4 w-full">
-          <span className="">{t("DontHaveAcoount")}</span>{" "}
-          <Link
-            className="text-orange-700 hover:text-orange-900"
-            to={"/signup"}
-          >
-            {t("SignUp")}
-          </Link>
-        </div>
+          {error && (
+            <div className="text-red-800 font-sans text-base">{t(error)}</div>
+          )}
+          <div className="py-4 w-full">
+            <input
+              placeholder={t("Email")}
+              type="text"
+              {...register("email")}
+              onChange={(e) =>
+                setUserInfo({ ...userInfo, email: e.target.value })
+              }
+              className="w-full h-12 text-orange-900 px-8 bg-white hover:bg-orange-200 border border-orange-300 rounded-md"
+            ></input>
+          </div>
+          {errors.email && (
+            <div className="text-red-800 font-sans text-base">
+              {errors.email?.message}
+            </div>
+          )}
+          <div className="py-4 w-full">
+            <input
+              placeholder={t("Password")}
+              type="password"
+              {...register("password")}
+              onChange={(e) =>
+                setUserInfo({ ...userInfo, password: e.target.value })
+              }
+              className="w-full h-12 text-orange-900 px-8 bg-white hover:bg-orange-200 border border-orange-300 rounded-md"
+            ></input>
+          </div>
+          {errors.password && (
+            <div className="text-red-800 font-sans text-base">
+              {errors.password?.message}
+            </div>
+          )}
+          <div className="py-4 w-full">
+            {!isLoading ? (
+              <button
+                type="submit"
+                className="w-full h-12 text-orange-900 font-bold px-8 bg-orange-500 hover:bg-orange-700 hover:text-white border border-orange-300 rounded-md uppercase cursor-pointer"
+              >
+                {t("SignIn")}
+              </button>
+            ) : (
+              <button
+                className="w-full h-12 text-gray-800 font-bold px-8 bg-gray-500 border-gray-800 rounded-md uppercase cursor-none"
+                disabled
+              >
+                {t("SignInWait")}
+              </button>
+            )}
+          </div>
+          <div className="py-4 w-full">
+            <span className="">{t("DontHaveAcoount")}</span>{" "}
+            <Link
+              className="text-orange-700 hover:text-orange-900"
+              to={"/signup"}
+            >
+              {t("SignUp")}
+            </Link>
+          </div>
+        </form>
+        <OAuth errorFN={setError} cookieFN={props.cookieFN} />
       </div>
-    </form>
+    </>
   );
 };
 

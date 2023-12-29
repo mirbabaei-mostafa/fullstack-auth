@@ -25,5 +25,6 @@
   "Password": "Passwort",
   "WrongCredential": "Ihr Passwort ist falsch!",
   "EmailNotFound": "Es gibt nicht Ihre E-Mail-adresse!",
-  "SuccessfullAddingToMongoDB": "Ihr Konto wurde erfolgreich erstellt!"
+  "SuccessfullAddingToMongoDB": "Ihr Konto wurde erfolgreich erstellt!",
+  "SuccessfullAuthentication": "Die Anmeldung wurde erfolgreich gewesen!"
 }
