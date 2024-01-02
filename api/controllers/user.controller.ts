@@ -13,6 +13,13 @@ interface UserI {
   image?: string;
 }
 
+interface UserUI {
+  _id: string;
+  username: string;
+  email: string;
+  password: string;
+}
+
 const saltRounds = 10;
 
 const generatePassword = (): string => {
@@ -138,10 +145,72 @@ export const googleUser = async (
     if (AddGoogleAccountToDB) {
       const newPass: string = generatePassword();
       const hashPass = bcrypt.hashSync(newPass, saltRounds);
-      const newUser = new Users({ ...userInfo, password: hashPass });
+      const newUser = new Users({
+        ...userInfo,
+        username: userInfo.username.split(" ").join(""),
+        password: hashPass,
+      });
       await newUser.save();
+      const { password: hashPassword, ...userrest } = (newUser as any)._doc;
       const token: string = getToken(newUser!._id);
-      res.status(201).json({ message: "SuccessfullAddingToMongoDB" });
+      res
+        .cookie("auth_token", token, {
+          httpOnly: true,
+          maxAge: 2 * 60 * 60,
+        })
+        .status(201)
+        .json({ ...userrest, message: "SuccessfullAddingToMongoDB" });
+    }
+  } catch (err) {
+    next({ status: 500, message: "UnknownError" });
+  }
+};
+
+export const updateUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const userInfo: UserUI = req.body;
+  try {
+    await Users.findOne({ _id: userInfo._id })
+      .then((result: any) => {
+        if (result) {
+          const token: string = getToken(result!._id);
+          const { password: hashPassword, ...userrest } = result!._doc;
+          res
+            .cookie("auth_token", token, {
+              httpOnly: true,
+              maxAge: 2 * 60 * 60,
+            })
+            .status(201)
+            .json(userrest);
+          res.status(201).json({ message: "SuccessfullAuthentication" });
+        } else {
+          AddGoogleAccountToDB = true;
+        }
+      })
+      .catch((err) => {
+        next({ status: 400, message: err.message });
+      });
+    if (AddGoogleAccountToDB) {
+      const newPass: string = generatePassword();
+      const hashPass = bcrypt.hashSync(newPass, saltRounds);
+      const newUser = new Users({
+        ...userInfo,
+        username: userInfo.username.split(" ").join(""),
+        password: hashPass,
+      });
+      await newUser.save();
+      const { password: hashPassword, ...userrest } = (newUser as any)._doc;
+      const token: string = getToken(newUser!._id);
+      res
+        .cookie("auth_token", token, {
+          httpOnly: true,
+          maxAge: 2 * 60 * 60,
+        })
+        .status(201)
+        .json({ ...userrest, message: "SuccessfullAddingToMongoDB" });
     }
   } catch (err) {
     next({ status: 500, message: "UnknownError" });

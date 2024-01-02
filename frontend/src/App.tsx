@@ -1,18 +1,18 @@
-import React from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Signin from './pages/Signin';
-import Home from './pages/Home';
-import Signup from './pages/Signup';
-import Profile from './pages/Profile';
-import Logo from './components/Logo';
-import { useCookies } from 'react-cookie';
+import React from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Signin from "./pages/Signin";
+import Home from "./pages/Home";
+import Signup from "./pages/Signup";
+import Profile from "./pages/Profile";
+import Logo from "./components/Logo";
+import { useCookies } from "react-cookie";
 
 function App() {
-  const [cookies, setCookies] = useCookies<string>(['user']);
+  const [cookies, setCookies] = useCookies<string>(["user"]);
   return (
-    <div className="container mx-auto m-0 h-full">
+    <div className="container mx-auto m-0 h-full w-full">
       <BrowserRouter>
-        <div className="flex flex-row justify-evenly items-center m-20 bg-white h-dvh rounded">
+        <div className="flex flex-row justify-evenly m-20 bg-white  min-h-max rounded">
           <div className="basis-2/3">
             <div className="flex p-20 items-center justify-evenly">
               <Routes>
@@ -45,7 +45,7 @@ function App() {
               </Routes>
             </div>
           </div>
-          <div className="basis-1/3 bg-eingang w-200 h-dvh items-center  rounded">
+          <div className="basis-1/3 bg-eingang bg-cover w-190 min-h-max min-h-full items-start rounded-tr rounded-br">
             <div className="flex p-20 items-center justify-evenly">
               <Logo cookieFN={setCookies} />
             </div>

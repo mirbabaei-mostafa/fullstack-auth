@@ -1,4 +1,4 @@
-import { Schema, model, connect } from "mongoose";
+import { Schema, model, connect } from 'mongoose';
 
 interface UserSchema {
   username: string;
@@ -25,12 +25,13 @@ const userSchema = new Schema<UserSchema>(
     },
     image: {
       type: String,
+      default: 'public/images/abstract-user.png',
       require: false,
     },
   },
   { timestamps: true }
 );
 
-const Users = model<UserSchema>("users", userSchema);
+const Users = model<UserSchema>('users', userSchema);
 
 export default Users;

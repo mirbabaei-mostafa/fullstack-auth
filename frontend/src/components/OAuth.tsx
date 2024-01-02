@@ -1,17 +1,17 @@
-import { useTranslation } from "react-i18next";
-import { GoogleProps } from "../data/types";
+import { useTranslation } from 'react-i18next';
+import { GoogleProps } from '../data/types';
 import {
   Auth,
   GoogleAuthProvider,
   UserCredential,
   getAuth,
   signInWithPopup,
-} from "firebase/auth";
-import firebaseApp from "../utils/firebase";
-import axios from "axios";
-import { API_GOOGLESIGNIN } from "../data/config";
-import { setAuth } from "../features/authSlice";
-import { useAppDispatch } from "../app/hooks";
+} from 'firebase/auth';
+import firebaseApp from '../utils/firebase';
+import axios from 'axios';
+import { API_GOOGLESIGNIN } from '../data/config';
+import { setAuth } from '../features/authSlice';
+import { useAppDispatch } from '../app/hooks';
 
 function OAuth(props: GoogleProps) {
   const { t } = useTranslation<string>();
@@ -34,20 +34,18 @@ function OAuth(props: GoogleProps) {
             image: authResult.user.photoURL,
           }),
           {
-            method: "POST",
+            method: 'POST',
             headers: {
-              "Content-Type": "application/json",
+              'Content-Type': 'application/json',
             },
           }
         )
         .then((res) => {
           console.log(res.data);
           dispatch(setAuth(res.data));
-          props.cookieFN("user", res.data.username);
+          props.cookieFN('user', res.data.username);
         });
-      console.log(authResult);
     } catch (err) {
-      console.log(err);
       props.errorFN(err as string);
     }
   };
@@ -59,7 +57,7 @@ function OAuth(props: GoogleProps) {
         onClick={googleAuthHandler}
         className="w-full h-12 text-white font-bold px-8 bg-gray-800 hover:bg-gray-700 border-gray-950 rounded-md uppercase"
       >
-        {t("ContinueGoole")}
+        {t('ContinueGoole')}
       </button>
     </div>
   );
