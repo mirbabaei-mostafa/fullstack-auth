@@ -41,6 +41,7 @@ function OAuth(props: GoogleProps) {
           }
         )
         .then((res) => {
+          console.log(res.data);
           dispatch(setAuth(res.data));
           props.cookieFN("user", res.data.username);
         });

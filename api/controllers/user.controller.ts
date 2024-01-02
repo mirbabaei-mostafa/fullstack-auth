@@ -10,6 +10,7 @@ interface UserI {
   username: string;
   email: string;
   password: string;
+  image?: string;
 }
 
 const saltRounds = 10;
@@ -140,15 +141,6 @@ export const googleUser = async (
       const newUser = new Users({ ...userInfo, password: hashPass });
       await newUser.save();
       const token: string = getToken(newUser!._id);
-      console.log(newUser);
-      // const { password: hashPassword, ...userrest } = newUser!._doc;
-      // res
-      //   .cookie("auth_token", token, {
-      //     httpOnly: true,
-      //     maxAge: 2 * 60 * 60,
-      //   })
-      //   .status(201)
-      //   .json(userrest);
       res.status(201).json({ message: "SuccessfullAddingToMongoDB" });
     }
   } catch (err) {

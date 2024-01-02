@@ -4,6 +4,7 @@ interface UserSchema {
   username: string;
   email: string;
   password: string;
+  image?: string;
 }
 
 const userSchema = new Schema<UserSchema>(
@@ -21,6 +22,10 @@ const userSchema = new Schema<UserSchema>(
     password: {
       type: String,
       require: true,
+    },
+    image: {
+      type: String,
+      require: false,
     },
   },
   { timestamps: true }
