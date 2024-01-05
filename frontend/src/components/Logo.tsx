@@ -3,8 +3,10 @@ import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { Link, useNavigate } from "react-router-dom";
 import { removeAuth } from "../features/authSlice";
 import { CookieProps } from "../data/types";
+import { Cookies } from "react-cookie";
 
 function Logo(props: CookieProps) {
+  const cookies = new Cookies();
   const { t } = useTranslation();
   const navigate = useNavigate();
   const auth = useAppSelector((state) => state.auth);
@@ -13,6 +15,7 @@ function Logo(props: CookieProps) {
   const signOut = () => {
     dispatch(removeAuth());
     props.cookieFN("user", "");
+    cookies.remove("auth_token", { path: "/" });
   };
   return (
     <div className="flex flex-col items-center place-content-center justify-center">

@@ -26,5 +26,7 @@
   "WrongCredential": "Ihr Passwort ist falsch!",
   "EmailNotFound": "Es gibt nicht Ihre E-Mail-adresse!",
   "SuccessfullAddingToMongoDB": "Ihr Konto wurde erfolgreich erstellt!",
-  "SuccessfullAuthentication": "Die Anmeldung wurde erfolgreich gewesen!"
+  "UploadInProgress": "Hochladen...",
+  "MaxFileSize": "Maximale Dateigröße: 1MB",
+  "ImageFileType": "Bilddatei muss ein JPG- oder GIF- oder PNG-Detei sein."
 }

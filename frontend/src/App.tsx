@@ -1,13 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Signin from "./pages/Signin";
 import Home from "./pages/Home";
 import Signup from "./pages/Signup";
 import Profile from "./pages/Profile";
 import Logo from "./components/Logo";
-import { useCookies } from "react-cookie";
+import { Cookies, useCookies } from "react-cookie";
+
+// https://www.npmjs.com/package/react-cookie
+// https://www.npmjs.com/package/universal-cookie
 
 function App() {
+  const token = new Cookies("auth_token");
+  console.log(token);
   const [cookies, setCookies] = useCookies<string>(["user"]);
   return (
     <div className="container mx-auto m-0 h-full w-full">

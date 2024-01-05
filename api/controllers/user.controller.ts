@@ -20,6 +20,15 @@ interface UserUI {
   password: string;
 }
 
+interface TokenI {
+  _id: string;
+  username: string;
+  email: string;
+  image: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
 const saltRounds = 10;
 
 const generatePassword = (): string => {
@@ -33,14 +42,8 @@ const generatePassword = (): string => {
   return retVal;
 };
 
-const getToken = (rId: any): string => {
-  return jwt.sign(
-    {
-      id: rId,
-    },
-    process.env.JWTSECRET as string,
-    { expiresIn: "2h" }
-  );
+const getToken = (tInfo: TokenI): string => {
+  return jwt.sign(tInfo, process.env.JWTSECRET as string, { expiresIn: "2h" });
 };
 
 export const getUsers = (req: Request, res: Response) => {
@@ -51,6 +54,7 @@ export const getUsers = (req: Request, res: Response) => {
   });
 };
 
+// Adding new user by sign up
 export const addUser = async (
   req: Request,
   res: Response,
@@ -74,6 +78,7 @@ export const addUser = async (
   }
 };
 
+// Sign in process
 export const checkUser = async (
   req: Request,
   res: Response,
@@ -91,8 +96,10 @@ export const checkUser = async (
           if (!isVerify) {
             next({ status: 404, message: "WrongCredential" });
           } else {
-            const token: string = getToken(result!._id);
             const { password: hashPassword, ...userrest } = result!._doc;
+            // const token: string = getToken(result!._id);
+            const token: string = getToken(userrest);
+            console.log(userrest);
             res
               .cookie("auth_token", token, {
                 httpOnly: true,
@@ -100,7 +107,7 @@ export const checkUser = async (
               })
               .status(201)
               .json(userrest);
-            res.status(201).json({ message: "SuccessfullAuthentication" });
+            // res.status(201).json({ message: 'SuccessfullAuthentication' });
           }
         } else {
           next({ status: 404, message: "EmailNotFound" });
@@ -114,6 +121,7 @@ export const checkUser = async (
   }
 };
 
+// Google based authentication handler
 export const googleUser = async (
   req: Request,
   res: Response,
@@ -145,14 +153,15 @@ export const googleUser = async (
     if (AddGoogleAccountToDB) {
       const newPass: string = generatePassword();
       const hashPass = bcrypt.hashSync(newPass, saltRounds);
+      const postFix = Math.floor(Math.random() * 32145);
       const newUser = new Users({
         ...userInfo,
-        username: userInfo.username.split(" ").join(""),
+        username: userInfo.username.split(" ").join("") + postFix,
         password: hashPass,
       });
       await newUser.save();
       const { password: hashPassword, ...userrest } = (newUser as any)._doc;
-      const token: string = getToken(newUser!._id);
+      const token: string = getToken(userrest);
       res
         .cookie("auth_token", token, {
           httpOnly: true,
@@ -187,31 +196,12 @@ export const updateUser = async (
             .json(userrest);
           res.status(201).json({ message: "SuccessfullAuthentication" });
         } else {
-          AddGoogleAccountToDB = true;
+          // AddGoogleAccountToDB = true;
         }
       })
       .catch((err) => {
         next({ status: 400, message: err.message });
       });
-    if (AddGoogleAccountToDB) {
-      const newPass: string = generatePassword();
-      const hashPass = bcrypt.hashSync(newPass, saltRounds);
-      const newUser = new Users({
-        ...userInfo,
-        username: userInfo.username.split(" ").join(""),
-        password: hashPass,
-      });
-      await newUser.save();
-      const { password: hashPassword, ...userrest } = (newUser as any)._doc;
-      const token: string = getToken(newUser!._id);
-      res
-        .cookie("auth_token", token, {
-          httpOnly: true,
-          maxAge: 2 * 60 * 60,
-        })
-        .status(201)
-        .json({ ...userrest, message: "SuccessfullAddingToMongoDB" });
-    }
   } catch (err) {
     next({ status: 500, message: "UnknownError" });
   }
